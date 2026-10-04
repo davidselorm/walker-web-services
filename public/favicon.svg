@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0052D4" />
+      <stop offset="50%" stop-color="#4364F7" />
+      <stop offset="100%" stop-color="#6FB1FC" />
+    </linearGradient>
+    <linearGradient id="wingGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00C9FF" />
+      <stop offset="100%" stop-color="#92FE9D" />
+    </linearGradient>
+  </defs>
+  <!-- Background rounded rect -->
+  <rect width="100" height="100" rx="22" fill="#0B132B" />
+  <!-- Stylized Walker W -->
+  <path d="M18 28 L34 74 L46 44 L54 62 L66 28 L82 28 L64 74 L50 74 L42 54 L34 74 L18 74 Z" fill="url(#blueGrad)"/>
+  <!-- Dynamic accent swoosh -->
+  <path d="M46 36 L78 36 L66 62 Z" fill="#00D2FF" opacity="0.9" />
+</svg>
