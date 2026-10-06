@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { siteConfig } from '../data/siteConfig';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, MessageSquare, Loader2, AlertCircle } from 'lucide-react';
 
 export default function Contact({ defaultService }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [prevDefaultService, setPrevDefaultService] = useState(defaultService);
   const [serviceType, setServiceType] = useState(defaultService || 'Business & Corporate Website');
   const [message, setMessage] = useState('');
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState('');
 
   if (defaultService !== prevDefaultService) {
     setPrevDefaultService(defaultService);
@@ -23,27 +25,59 @@ export default function Contact({ defaultService }) {
     'Custom Web Project / Other'
   ];
 
-  const handleSubmit = (e) => {
+  const getWhatsAppUrl = () => {
+    const text = `*NEW WEBSITE INQUIRY - Walker Web Services*
+━━━━━━━━━━━━━━━━━━━━━━
+👤 *Client Name:* ${name || 'Prospective Client'}
+📞 *Phone/WhatsApp:* ${phone || 'Not provided'}
+✉️ *Email:* ${email || 'Not provided'}
+🌐 *Website Needed:* ${serviceType}
+📝 *Project Notes:* ${message || 'Ready to start! Please contact me with details.'}
+━━━━━━━━━━━━━━━━━━━━━━
+_Sent via Walker Web Services Website_`;
+    return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(text)}`;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !phone) {
       alert('Please provide your name and phone number.');
       return;
     }
 
-    const text = `*NEW WEBSITE INQUIRY - Walker Web Services*
-━━━━━━━━━━━━━━━━━━━━━━
-👤 *Client Name:* ${name}
-📞 *Phone/WhatsApp:* ${phone}
-🌐 *Website Needed:* ${serviceType}
-📝 *Project Notes:* ${message || 'Ready to start! Please contact me with details.'}
-━━━━━━━━━━━━━━━━━━━━━━
-_Sent via Walker Web Services Website_`;
+    setStatus('loading');
+    setErrorMessage('');
 
-    const encoded = encodeURIComponent(text);
-    const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encoded}`;
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${siteConfig.email}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Website Order from ${name} - Walker Web Services`,
+          _template: 'table',
+          'Client Name': name,
+          'Phone / WhatsApp': phone,
+          'Client Email': email || 'Not provided',
+          'Website Type': serviceType,
+          'Project Details': message || 'None provided'
+        })
+      });
 
-    setSent(true);
-    window.open(whatsappUrl, '_blank');
+      const data = await response.json();
+      if (response.ok && (data.success === 'true' || data.success === true)) {
+        setStatus('success');
+      } else {
+        throw new Error(data.message || 'Failed to submit order. Please try WhatsApp directly.');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      // Fallback: If submission fails, alert and offer direct WhatsApp
+      setStatus('error');
+      setErrorMessage('Could not send email automatically. Please tap the WhatsApp button below to submit directly!');
+    }
   };
 
   return (
@@ -61,90 +95,182 @@ _Sent via Walker Web Services Website_`;
           </h2>
 
           <p className="font-inter text-slate-600 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-            Fill in your project details below to send your request directly to our official WhatsApp line (<strong className="text-[#0B0D11]">{siteConfig.phone}</strong>) for instant review and kickoff.
+            Submit your order directly to our official inbox (<strong className="text-[#0B0D11]">{siteConfig.email}</strong>) or chat with us on WhatsApp for real-time discussion.
           </p>
         </div>
 
         {/* Clean White Card Form */}
         <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-12 shadow-sm text-left">
-          <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
-            <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
-              <div>
-                <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
-                  Your Full Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Samuel Walker"
-                  className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
-                />
+          
+          {status === 'success' ? (
+            <div className="space-y-6 text-center py-6 animate-in fade-in duration-200">
+              <div className="w-16 h-16 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-9 h-9" />
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="font-poppins font-bold text-2xl text-[#0B0D11]">
+                  Order Sent Successfully!
+                </h3>
+                <p className="font-inter text-slate-600 text-sm sm:text-base max-w-md mx-auto">
+                  Thank you, <strong className="text-slate-900">{name}</strong>. Your order details have been delivered to our team at <strong className="text-[#0066FF]">{siteConfig.email}</strong>.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-left max-w-md mx-auto space-y-2 text-xs sm:text-sm font-inter text-slate-700">
+                <div className="font-bold text-slate-900 border-b border-slate-200 pb-1.5">Order Summary:</div>
+                <div>• <strong>Service:</strong> {serviceType}</div>
+                <div>• <strong>Phone:</strong> {phone}</div>
+                {email && <div>• <strong>Email:</strong> {email}</div>}
+              </div>
+
+              {/* Seamless WhatsApp Hand-off */}
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a
+                  href={getWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto font-inter inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-emerald-600 text-white font-bold text-sm shadow-md transition-all active:scale-95"
+                >
+                  <MessageSquare className="w-4 h-4 fill-current" />
+                  <span>Continue on WhatsApp Now</span>
+                </a>
+
+                <button
+                  onClick={() => {
+                    setStatus('idle');
+                    setName('');
+                    setPhone('');
+                    setEmail('');
+                    setMessage('');
+                  }}
+                  className="w-full sm:w-auto font-inter inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition"
+                >
+                  Submit Another Order
+                </button>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                <div>
+                  <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
+                    Your Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Samuel Walker"
+                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
+                    Phone / WhatsApp Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="e.g. 0537968981"
+                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
+                  />
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                <div>
+                  <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
+                    Your Email Address (Optional)
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e.g. you@example.com"
+                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
+                    Website Type Needed *
+                  </label>
+                  <select
+                    value={serviceType}
+                    onChange={(e) => setServiceType(e.target.value)}
+                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition cursor-pointer"
+                  >
+                    {serviceOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div>
                 <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
-                  Phone / WhatsApp Number *
+                  Tell Us About Your Project (Optional)
                 </label>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="e.g. 0537968981"
-                  className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
+                <textarea
+                  rows={3}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Briefly describe what your business does, preferred design styles, features you need, or special requests..."
+                  className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition resize-none"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
-                What Type of Website Do You Need?
-              </label>
-              <select
-                value={serviceType}
-                onChange={(e) => setServiceType(e.target.value)}
-                className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition cursor-pointer"
-              >
-                {serviceOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </div>
+              {status === 'error' && (
+                <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm font-inter flex items-start gap-2.5">
+                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
 
-            <div>
-              <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
-                Tell Us About Your Project (Optional)
-              </label>
-              <textarea
-                rows={3}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Briefly describe what your business does, preferred colors, reference websites you like, or any specific questions..."
-                className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition resize-none"
-              />
-            </div>
+              {/* Action Buttons: Submit Order to Email + Direct WhatsApp Chat */}
+              <div className="pt-2 space-y-3">
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="w-full py-3.5 sm:py-4 px-6 rounded-full bg-[#0066FF] hover:bg-blue-700 disabled:bg-blue-400 text-white font-inter font-bold text-sm sm:text-base transition-all shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  {status === 'loading' ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Sending Order to {siteConfig.email}...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Submit Order via Email</span>
+                      <ArrowRight className="w-5 h-5 shrink-0" />
+                    </>
+                  )}
+                </button>
 
-            <div className="pt-2 space-y-4">
-              <button
-                type="submit"
-                className="w-full py-3.5 sm:py-4 px-6 rounded-full bg-[#0066FF] hover:bg-blue-700 text-white font-inter font-bold text-sm sm:text-base transition-all shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>Send Order via WhatsApp</span>
-                <ArrowRight className="w-5 h-5 shrink-0" />
-              </button>
-            </div>
+                <div className="text-center">
+                  <span className="font-inter text-xs text-slate-400 uppercase tracking-wider">or chat directly</span>
+                </div>
 
-            {sent && (
-              <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-blue-900 text-xs sm:text-sm font-inter flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#0066FF] shrink-0" />
-                <span>WhatsApp has opened with your inquiry! Walker Web Services will respond promptly.</span>
+                <a
+                  href={getWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 px-6 rounded-full bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] font-inter font-bold text-sm transition-all flex items-center justify-center gap-2"
+                >
+                  <MessageSquare className="w-4 h-4 fill-current shrink-0" />
+                  <span>Chat on WhatsApp Directly ({siteConfig.phone})</span>
+                </a>
               </div>
-            )}
-          </form>
+            </form>
+          )}
+
         </div>
 
       </div>
