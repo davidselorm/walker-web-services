@@ -48,35 +48,69 @@ _Sent via Walker Web Services Website_`;
     setStatus('loading');
     setErrorMessage('');
 
+    let isSuccess = false;
+
+    // 1. Try dedicated Vercel Serverless Function backend
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${siteConfig.email}`, {
+      const response = await fetch('/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          _subject: `New Website Order from ${name} - Walker Web Services`,
-          _template: 'table',
-          'Client Name': name,
-          'Phone / WhatsApp': phone,
-          'Client Email': email || 'Not provided',
-          'Website Type': serviceType,
-          'Project Details': message || 'None provided'
+          name,
+          phone,
+          email,
+          serviceType,
+          message
         })
       });
 
       const data = await response.json();
-      if (response.ok && (data.success === 'true' || data.success === true)) {
-        setStatus('success');
+      if (response.ok && data.success) {
+        isSuccess = true;
       } else {
-        throw new Error(data.message || 'Failed to submit order. Please try WhatsApp directly.');
+        console.warn('Backend response error:', data?.error);
       }
     } catch (err) {
-      console.error('Submission error:', err);
-      // Fallback: If submission fails, alert and offer direct WhatsApp
+      console.warn('Error calling /api/order, proceeding to fallback:', err);
+    }
+
+    // 2. Fallback to direct delivery if serverless key is pending configuration
+    if (!isSuccess) {
+      try {
+        const fallbackRes = await fetch(`https://formsubmit.co/ajax/${siteConfig.email}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: `New Website Order from ${name} - Walker Web Services`,
+            _template: 'table',
+            'Client Name': name,
+            'Phone / WhatsApp': phone,
+            'Client Email': email || 'Not provided',
+            'Website Type': serviceType,
+            'Project Details': message || 'None provided'
+          })
+        });
+
+        const fallbackData = await fallbackRes.json();
+        if (fallbackRes.ok && (fallbackData.success === 'true' || fallbackData.success === true)) {
+          isSuccess = true;
+        }
+      } catch (err2) {
+        console.error('Direct delivery error:', err2);
+      }
+    }
+
+    if (isSuccess) {
+      setStatus('success');
+    } else {
       setStatus('error');
-      setErrorMessage('Could not send email automatically. Please tap the WhatsApp button below to submit directly!');
+      setErrorMessage('Could not deliver email automatically. Please connect with us directly on WhatsApp below!');
     }
   };
 
