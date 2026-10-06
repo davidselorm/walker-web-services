@@ -5,6 +5,7 @@ import Services from './components/Services';
 import AboutUs from './components/AboutUs';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import FloatingWhatsApp from './components/FloatingWhatsApp';
 
 export default function App() {
   const [selectedService, setSelectedService] = useState('Business & Corporate Website');
@@ -42,6 +43,9 @@ export default function App() {
 
       {/* Signature Flyer Footer */}
       <Footer />
+
+      {/* Quick Mobile/Desktop Floating WhatsApp Button */}
+      <FloatingWhatsApp />
     </div>
   );
 }
