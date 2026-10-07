@@ -60,22 +60,22 @@ export default function AboutUs() {
           </p>
         </div>
 
-        {/* 3 Pillars Grid */}
+        {/* 3 Pillars Grid (iOS Frosted Glass) */}
         <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
           {pillars.map((pillar) => {
             const Icon = pillar.icon;
             return (
               <div
                 key={pillar.id}
-                className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-[#0066FF]/60 transition-all duration-300 flex flex-col justify-between text-left group"
+                className="ios-glass-interactive rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-left group"
               >
                 <div className="space-y-4 sm:space-y-5">
                   {/* Top Icon & Badge Row */}
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-[#0066FF] text-white flex items-center justify-center shadow-md shadow-blue-500/20 transition-transform group-hover:scale-105">
+                    <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-[#0066FF] text-white flex items-center justify-center shadow-[0_4px_16px_rgba(0,102,255,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)] transition-transform group-hover:scale-105">
                       <Icon className="w-5 h-5 sm:w-6 sm:h-6 fill-current" />
                     </div>
-                    <span className="font-inter text-[11px] font-bold px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-700">
+                    <span className="font-inter text-[11px] font-bold px-3 py-1 rounded-full ios-glass-pill text-slate-700">
                       {pillar.badge}
                     </span>
                   </div>
@@ -91,7 +91,7 @@ export default function AboutUs() {
                   </div>
 
                   {/* Highlights Bullet Points */}
-                  <div className="pt-4 space-y-2 border-t border-slate-100">
+                  <div className="pt-4 space-y-2 border-t border-slate-200/50">
                     {pillar.points.map((pt, idx) => (
                       <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-inter text-slate-700">
                         <CheckCircle2 className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />

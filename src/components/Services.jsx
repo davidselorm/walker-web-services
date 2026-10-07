@@ -92,24 +92,24 @@ export default function Services({ onSelectService }) {
           </p>
         </div>
 
-        {/* Services Grid (4 Clean White Cards) */}
+        {/* Services Grid (4 Clean White Cards with iOS Frosted Glass) */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
           {services.map((service) => {
             const Icon = service.icon;
             return (
               <div
                 key={service.id}
-                className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-9 shadow-sm hover:shadow-md hover:border-[#0066FF]/60 transition-all duration-300 flex flex-col justify-between relative text-left group"
+                className="ios-glass-interactive rounded-3xl p-6 sm:p-9 flex flex-col justify-between relative text-left group"
               >
                 {service.popular && (
-                  <span className="absolute top-5 right-5 sm:top-7 sm:right-7 text-[10px] font-inter font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-[#0066FF] text-white shadow-sm">
+                  <span className="absolute top-5 right-5 sm:top-7 sm:right-7 text-[10px] font-inter font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full bg-[#0066FF] text-white shadow-[0_2px_10px_rgba(0,102,255,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)]">
                     Most Popular
                   </span>
                 )}
 
                 <div className="space-y-4 sm:space-y-5">
-                  {/* Service Icon */}
-                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-blue-50 text-[#0066FF] flex items-center justify-center transition-transform group-hover:scale-105">
+                  {/* Service Icon in Frosted Pill */}
+                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-blue-50/90 border border-blue-100/80 text-[#0066FF] flex items-center justify-center transition-transform group-hover:scale-105 shadow-xs">
                     <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
 
@@ -123,14 +123,14 @@ export default function Services({ onSelectService }) {
                     </p>
                   </div>
 
-                  {/* Turnaround Badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-700 text-xs font-inter font-semibold">
+                  {/* Turnaround Badge in iOS Glass Pill */}
+                  <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full ios-glass-pill text-slate-700 text-xs font-inter font-semibold">
                     <Clock className="w-3.5 h-3.5 text-[#0066FF]" />
                     <span>Turnaround: {service.turnaround}</span>
                   </div>
 
                   {/* Features List */}
-                  <div className="pt-3 space-y-2 border-t border-slate-100">
+                  <div className="pt-3 space-y-2 border-t border-slate-200/50">
                     {service.features.map((feat, idx) => (
                       <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-inter text-slate-700">
                         <Check className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />
@@ -140,11 +140,11 @@ export default function Services({ onSelectService }) {
                   </div>
                 </div>
 
-                {/* Bottom Action Button (Pill shaped, blue) */}
-                <div className="pt-5 mt-5 sm:pt-7 sm:mt-7 border-t border-slate-100">
+                {/* Bottom Action Button (Pill shaped with iOS specular sheen) */}
+                <div className="pt-5 mt-5 sm:pt-7 sm:mt-7 border-t border-slate-200/50">
                   <button
                     onClick={() => onSelectService && onSelectService(service.id)}
-                    className="w-full py-3 px-5 rounded-full bg-[#0066FF] hover:bg-blue-700 text-white font-inter font-bold text-sm transition-all shadow-sm hover:shadow-md hover:shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-2 cursor-pointer group/btn"
+                    className="w-full py-3.5 px-5 rounded-full bg-[#0066FF] hover:bg-blue-700 text-white font-inter font-bold text-sm transition-all shadow-[0_4px_16px_rgba(0,102,255,0.25),inset_0_1px_1px_rgba(255,255,255,0.35)] hover:shadow-[0_8px_24px_rgba(0,102,255,0.35),inset_0_1px_1px_rgba(255,255,255,0.45)] active:scale-95 flex items-center justify-center gap-2 cursor-pointer group/btn"
                   >
                     <span>Order {service.title.split(' ')[0]} Site</span>
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />

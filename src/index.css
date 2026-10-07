@@ -65,3 +65,61 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* Apple iOS Glassmorphism Utilities */
+.ios-glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 10px 30px -5px rgba(0, 0, 0, 0.04),
+    0 20px 40px -15px rgba(0, 102, 255, 0.05),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.ios-glass-interactive {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 8px 30px -4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ios-glass-interactive:hover {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 102, 255, 0.35);
+  box-shadow: 
+    0 20px 40px -10px rgba(0, 102, 255, 0.12),
+    0 1px 3px 0 rgba(0, 0, 0, 0.02),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+  transform: translateY(-3px);
+}
+
+.ios-glass-pill {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 4px 20px -2px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.ios-glass-input {
+  background: rgba(248, 250, 252, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ios-glass-input:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #0066FF;
+  box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.12);
+}
+

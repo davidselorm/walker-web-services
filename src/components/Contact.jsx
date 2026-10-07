@@ -133,12 +133,12 @@ _Sent via Walker Web Services Website_`;
           </p>
         </div>
 
-        {/* Clean White Card Form */}
-        <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-12 shadow-sm text-left">
+        {/* Clean iOS Frosted Glass Form Card */}
+        <div className="ios-glass rounded-3xl p-6 sm:p-12 text-left">
           
           {status === 'success' ? (
             <div className="space-y-6 text-center py-6 animate-in fade-in duration-200">
-              <div className="w-16 h-16 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 rounded-full bg-blue-50/90 border border-blue-100 text-[#0066FF] flex items-center justify-center mx-auto shadow-xs">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
 
@@ -151,8 +151,8 @@ _Sent via Walker Web Services Website_`;
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-left max-w-md mx-auto space-y-2 text-xs sm:text-sm font-inter text-slate-700">
-                <div className="font-bold text-slate-900 border-b border-slate-200 pb-1.5">Order Summary:</div>
+              <div className="p-5 rounded-2xl ios-glass-pill text-left max-w-md mx-auto space-y-2 text-xs sm:text-sm font-inter text-slate-700">
+                <div className="font-bold text-slate-900 border-b border-slate-200/60 pb-1.5">Order Summary:</div>
                 <div>• <strong>Service:</strong> {serviceType}</div>
                 <div>• <strong>Your Budget:</strong> {budget ? `GH₵ ${budget}` : 'Flexible / To be discussed'}</div>
                 <div>• <strong>Phone:</strong> {phone}</div>
@@ -165,7 +165,7 @@ _Sent via Walker Web Services Website_`;
                   href={getWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto font-inter inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-emerald-600 text-white font-bold text-sm shadow-md transition-all active:scale-95"
+                  className="w-full sm:w-auto font-inter inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-emerald-600 text-white font-bold text-sm shadow-[0_4px_16px_rgba(37,211,102,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)] transition-all active:scale-95"
                 >
                   <MessageSquare className="w-4 h-4 fill-current" />
                   <span>Continue on WhatsApp Now</span>
@@ -180,7 +180,7 @@ _Sent via Walker Web Services Website_`;
                     setBudget('');
                     setMessage('');
                   }}
-                  className="w-full sm:w-auto font-inter inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition"
+                  className="w-full sm:w-auto font-inter inline-flex items-center justify-center px-6 py-3.5 rounded-full ios-glass-pill hover:bg-white text-slate-700 font-semibold text-sm transition"
                 >
                   Submit Another Order
                 </button>
@@ -199,7 +199,7 @@ _Sent via Walker Web Services Website_`;
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your full name"
-                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
+                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl ios-glass-input text-slate-900 placeholder-slate-400 focus:outline-none text-base sm:text-sm font-medium"
                   />
                 </div>
 
@@ -213,7 +213,7 @@ _Sent via Walker Web Services Website_`;
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="Enter your phone or WhatsApp number"
-                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
+                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl ios-glass-input text-slate-900 placeholder-slate-400 focus:outline-none text-base sm:text-sm font-medium"
                   />
                 </div>
               </div>
@@ -226,7 +226,7 @@ _Sent via Walker Web Services Website_`;
                   <select
                     value={serviceType}
                     onChange={(e) => setServiceType(e.target.value)}
-                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition cursor-pointer"
+                    className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl ios-glass-input text-slate-900 focus:outline-none text-base sm:text-sm font-medium cursor-pointer"
                   >
                     {serviceOptions.map((opt) => (
                       <option key={opt} value={opt}>
@@ -247,7 +247,7 @@ _Sent via Walker Web Services Website_`;
                       value={budget}
                       onChange={(e) => setBudget(e.target.value)}
                       placeholder="e.g. 500, 1000, 2500, or flexible"
-                      className="font-inter w-full pl-14 pr-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm font-semibold transition"
+                      className="font-inter w-full pl-14 pr-4 py-3 sm:py-3.5 rounded-2xl ios-glass-input text-slate-900 placeholder-slate-400 focus:outline-none text-base sm:text-sm font-semibold"
                     />
                   </div>
                 </div>
@@ -262,7 +262,7 @@ _Sent via Walker Web Services Website_`;
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address"
-                  className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
+                  className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl ios-glass-input text-slate-900 placeholder-slate-400 focus:outline-none text-base sm:text-sm font-medium"
                 />
               </div>
 
@@ -275,12 +275,12 @@ _Sent via Walker Web Services Website_`;
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Briefly describe what your business does, preferred design styles, features you need, or special requests..."
-                  className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition resize-none"
+                  className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl ios-glass-input text-slate-900 placeholder-slate-400 focus:outline-none text-base sm:text-sm font-medium resize-none"
                 />
               </div>
 
               {status === 'error' && (
-                <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm font-inter flex items-start gap-2.5">
+                <div className="p-4 rounded-2xl bg-red-50/90 border border-red-200 text-red-800 text-xs sm:text-sm font-inter flex items-start gap-2.5">
                   <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
                   <span>{errorMessage}</span>
                 </div>

@@ -13,7 +13,7 @@ export default function Navbar({ onOrderNow }) {
 
   return (
     <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 px-3 sm:px-6 pointer-events-none">
-      <div className={`max-w-5xl mx-auto bg-white/95 backdrop-blur-xl ${mobileMenuOpen ? 'rounded-3xl' : 'rounded-full'} border border-slate-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.06)] px-4 sm:px-6 py-2.5 sm:py-3 transition-all pointer-events-auto`}>
+      <div className={`max-w-5xl mx-auto ios-glass ${mobileMenuOpen ? 'rounded-3xl' : 'rounded-full'} px-4 sm:px-6 py-2.5 sm:py-3 transition-all pointer-events-auto`}>
         <div className="flex items-center justify-between">
           
           {/* Logo & Brand Presentation */}
@@ -34,23 +34,23 @@ export default function Navbar({ onOrderNow }) {
           </a>
 
           {/* Desktop Center Links in rounded pill style */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-50/80 border border-slate-200/60 p-1 rounded-full">
+          <nav className="hidden md:flex items-center gap-1 bg-slate-100/60 border border-white/60 p-1 rounded-full backdrop-blur-md">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="font-inter text-xs sm:text-sm font-semibold text-slate-600 hover:text-[#0066FF] hover:bg-white px-4 py-1.5 rounded-full transition-all"
+                className="font-inter text-xs sm:text-sm font-semibold text-slate-600 hover:text-[#0066FF] hover:bg-white/90 hover:shadow-xs px-4 py-1.5 rounded-full transition-all"
               >
                 {link.name}
               </a>
             ))}
           </nav>
 
-          {/* Right Action: Order Now Button (Fully Rounded Pill) */}
+          {/* Right Action: Order Now Button (Fully Rounded Pill with iOS specular highlight) */}
           <div className="hidden sm:flex items-center pr-1">
             <button
               onClick={onOrderNow}
-              className="font-inter inline-flex items-center gap-1.5 px-6 py-2.5 rounded-full bg-[#0066FF] hover:bg-blue-700 text-white text-xs sm:text-sm font-bold shadow-[0_4px_14px_rgba(0,102,255,0.25)] hover:shadow-[0_6px_20px_rgba(0,102,255,0.35)] hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all cursor-pointer group"
+              className="font-inter inline-flex items-center gap-1.5 px-6 py-2.5 rounded-full bg-[#0066FF] hover:bg-blue-700 text-white text-xs sm:text-sm font-bold shadow-[0_4px_16px_rgba(0,102,255,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:shadow-[0_8px_24px_rgba(0,102,255,0.4),inset_0_1px_1px_rgba(255,255,255,0.5)] hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all cursor-pointer group"
             >
               <span>Order Now</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
