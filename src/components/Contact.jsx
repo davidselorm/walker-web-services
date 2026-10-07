@@ -192,7 +192,7 @@ _Sent via Walker Web Services Website_`;
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Samuel Walker"
+                    placeholder="Enter your full name"
                     className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
                   />
                 </div>
@@ -206,7 +206,7 @@ _Sent via Walker Web Services Website_`;
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="e.g. 0537968981"
+                    placeholder="Enter your phone or WhatsApp number"
                     className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
                   />
                 </div>
@@ -221,7 +221,7 @@ _Sent via Walker Web Services Website_`;
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. you@example.com"
+                    placeholder="Enter your email address"
                     className="font-inter w-full px-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm transition"
                   />
                 </div>
