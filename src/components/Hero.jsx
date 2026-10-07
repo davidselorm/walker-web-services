@@ -10,7 +10,7 @@ export default function Hero({ onOrderNow }) {
         {/* Mobile Trust Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-[#0066FF] text-xs font-inter font-semibold shadow-xs">
           <Zap className="w-3.5 h-3.5 shrink-0" />
-          <span>Starting from GH₵500 • Built to Your Budget</span>
+          <span>Fast Turnaround • Tailored to Your Budget</span>
         </div>
 
         {/* Main Bold Headline with mobile-optimized font sizing */}

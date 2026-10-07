@@ -88,7 +88,7 @@ export default function Services({ onSelectService }) {
           </h2>
 
           <p className="font-inter text-slate-600 text-sm sm:text-base leading-relaxed">
-            High-speed, custom-crafted websites engineered to elevate your brand. Tell us your budget (starting from GH₵500) and we'll tailor the ideal solution for your business.
+            High-speed, custom-crafted websites engineered to elevate your brand. Tell us your budget and requirements, and we'll tailor the ideal solution for your business.
           </p>
         </div>
 

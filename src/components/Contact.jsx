@@ -6,7 +6,7 @@ export default function Contact({ defaultService }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [budget, setBudget] = useState('500');
+  const [budget, setBudget] = useState('');
   const [prevDefaultService, setPrevDefaultService] = useState(defaultService);
   const [serviceType, setServiceType] = useState(defaultService || 'Business & Corporate Website');
   const [message, setMessage] = useState('');
@@ -30,7 +30,7 @@ export default function Contact({ defaultService }) {
     const text = `*NEW WEBSITE INQUIRY - Walker Web Services*
 ━━━━━━━━━━━━━━━━━━━━━━
 👤 *Client Name:* ${name || 'Prospective Client'}
-💰 *Budget:* GH₵ ${budget || '500+'}
+💰 *Budget:* ${budget ? `GH₵ ${budget}` : 'Flexible / Open to discussion'}
 📞 *Phone/WhatsApp:* ${phone || 'Not provided'}
 ✉️ *Email:* ${email || 'Not provided'}
 🌐 *Website Needed:* ${serviceType}
@@ -61,10 +61,10 @@ _Sent via Walker Web Services Website_`;
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          _subject: `🚀 New Website Order: ${name} (Budget: GH₵${budget || '500+'})`,
+          _subject: `🚀 New Website Order: ${name} (Budget: ${budget ? `GH₵ ${budget}` : 'Flexible'})`,
           _template: 'table',
           'Client Name': name,
-          'Client Budget': budget ? `GH₵ ${budget}` : 'Starting from GH₵500',
+          'Client Budget': budget ? `GH₵ ${budget}` : 'Flexible / Open to discussion',
           'Phone / WhatsApp': phone,
           'Client Email': email || 'Not provided',
           'Website Type': serviceType,
@@ -129,7 +129,7 @@ _Sent via Walker Web Services Website_`;
           </h2>
 
           <p className="font-inter text-slate-600 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-            Tell us about your project and your budget (starting from <strong className="text-[#0B0D11]">GH₵500</strong>). We'll review your details and get back to you promptly.
+            Tell us about your project and your budget. We'll review your details and get back to you promptly with a tailored plan.
           </p>
         </div>
 
@@ -154,7 +154,7 @@ _Sent via Walker Web Services Website_`;
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-left max-w-md mx-auto space-y-2 text-xs sm:text-sm font-inter text-slate-700">
                 <div className="font-bold text-slate-900 border-b border-slate-200 pb-1.5">Order Summary:</div>
                 <div>• <strong>Service:</strong> {serviceType}</div>
-                <div>• <strong>Your Budget:</strong> GH₵ {budget}</div>
+                <div>• <strong>Your Budget:</strong> {budget ? `GH₵ ${budget}` : 'Flexible / To be discussed'}</div>
                 <div>• <strong>Phone:</strong> {phone}</div>
                 {email && <div>• <strong>Email:</strong> {email}</div>}
               </div>
@@ -177,7 +177,7 @@ _Sent via Walker Web Services Website_`;
                     setName('');
                     setPhone('');
                     setEmail('');
-                    setBudget('500');
+                    setBudget('');
                     setMessage('');
                   }}
                   className="w-full sm:w-auto font-inter inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition"
@@ -237,20 +237,16 @@ _Sent via Walker Web Services Website_`;
                 </div>
 
                 <div>
-                  <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2 flex items-center justify-between">
-                    <span>Your Budget (GH₵) *</span>
-                    <span className="text-[10px] font-semibold text-[#0066FF] bg-blue-50 px-2 py-0.5 rounded-full">Min GH₵500</span>
+                  <label className="block font-inter text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
+                    Your Budget (GH₵)
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-inter font-bold text-slate-500 text-sm">GH₵</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-inter font-bold text-slate-400 text-sm">GH₵</span>
                     <input
-                      type="number"
-                      min="500"
-                      step="50"
-                      required
+                      type="text"
                       value={budget}
                       onChange={(e) => setBudget(e.target.value)}
-                      placeholder="500"
+                      placeholder="e.g. 500, 1000, 2500, or flexible"
                       className="font-inter w-full pl-14 pr-4 py-3 sm:py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white text-base sm:text-sm font-semibold transition"
                     />
                   </div>

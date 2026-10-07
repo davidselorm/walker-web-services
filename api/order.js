@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     }
 
     const resend = new Resend(resendApiKey);
-    const emailSubject = `🚀 New Website Order: ${name} (Budget: GH₵${budget || '500+'})`;
+    const emailSubject = `🚀 New Website Order: ${name} (Budget: ${budget ? `GH₵ ${budget}` : 'Flexible'})`;
 
     const cleanPhone = phone.replace(/[^0-9]/g, '');
 
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
             </tr>
             <tr style="border-bottom: 1px solid #f1f5f9;">
               <td style="padding: 10px 0; color: #64748b; font-weight: 600;">Client's Budget:</td>
-              <td style="padding: 10px 0; color: #16a34a; font-weight: bold; font-size: 15px;">${budget ? `GH₵ ${budget}` : 'Starting from GH₵500'}</td>
+              <td style="padding: 10px 0; color: #16a34a; font-weight: bold; font-size: 15px;">${budget ? `GH₵ ${budget}` : 'Flexible / To be discussed'}</td>
             </tr>
             <tr style="border-bottom: 1px solid #f1f5f9;">
               <td style="padding: 10px 0; color: #64748b; font-weight: 600;">Phone / WhatsApp:</td>
