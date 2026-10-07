@@ -49,9 +49,35 @@ _Sent via Walker Web Services Website_`;
     setErrorMessage('');
 
     let isSuccess = false;
-    let backendError = '';
 
-    // 1. Try dedicated Vercel Serverless Function backend
+    // 1. Send directly to verified walkerwebservices1@gmail.com token
+    try {
+      const tokenRes = await fetch('https://formsubmit.co/ajax/ea7a4eb6bc1dda72e98594fd60ca9b05', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `🚀 New Website Order: ${name} (${serviceType})`,
+          _template: 'table',
+          'Client Name': name,
+          'Phone / WhatsApp': phone,
+          'Client Email': email || 'Not provided',
+          'Website Type': serviceType,
+          'Project Details': message || 'None provided'
+        })
+      });
+
+      const tokenData = await tokenRes.json();
+      if (tokenRes.ok && (tokenData.success === 'true' || tokenData.success === true)) {
+        isSuccess = true;
+      }
+    } catch (e) {
+      console.warn('FormSubmit token submission error:', e);
+    }
+
+    // 2. Also trigger Vercel Serverless Function backend
     try {
       const response = await fetch('/api/order', {
         method: 'POST',
@@ -71,48 +97,16 @@ _Sent via Walker Web Services Website_`;
       const data = await response.json();
       if (response.ok && data.success) {
         isSuccess = true;
-      } else {
-        backendError = data?.error || '';
-        console.warn('Backend response error:', data?.error);
       }
     } catch (err) {
-      console.warn('Error calling /api/order, proceeding to fallback:', err);
-    }
-
-    // 2. Fallback to direct delivery if serverless key is pending configuration
-    if (!isSuccess) {
-      try {
-        const fallbackRes = await fetch(`https://formsubmit.co/ajax/${siteConfig.email}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            _subject: `New Website Order from ${name} - Walker Web Services`,
-            _template: 'table',
-            'Client Name': name,
-            'Phone / WhatsApp': phone,
-            'Client Email': email || 'Not provided',
-            'Website Type': serviceType,
-            'Project Details': message || 'None provided'
-          })
-        });
-
-        const fallbackData = await fallbackRes.json();
-        if (fallbackRes.ok && (fallbackData.success === 'true' || fallbackData.success === true)) {
-          isSuccess = true;
-        }
-      } catch (err2) {
-        console.error('Direct delivery error:', err2);
-      }
+      console.warn('Backend /api/order call:', err);
     }
 
     if (isSuccess) {
       setStatus('success');
     } else {
       setStatus('error');
-      setErrorMessage(backendError || 'Could not deliver email automatically. Please connect with us directly on WhatsApp below!');
+      setErrorMessage('Could not deliver email automatically. Please connect with us directly on WhatsApp below!');
     }
   };
 
