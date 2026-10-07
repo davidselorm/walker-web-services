@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, phone, email, serviceType, message } = req.body || {};
+    const { name, phone, email, serviceType, budget, message } = req.body || {};
 
     if (!name || !phone) {
       return res.status(400).json({ error: 'Name and phone number are required.' });
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     }
 
     const resend = new Resend(resendApiKey);
-    const emailSubject = `🚀 New Website Order: ${name} (${serviceType || 'Website'})`;
+    const emailSubject = `🚀 New Website Order: ${name} (Budget: GH₵${budget || '500+'})`;
 
     const cleanPhone = phone.replace(/[^0-9]/g, '');
 
@@ -42,6 +42,10 @@ export default async function handler(req, res) {
             <tr style="border-bottom: 1px solid #f1f5f9;">
               <td style="padding: 10px 0; color: #64748b; font-weight: 600; width: 140px;">Client Name:</td>
               <td style="padding: 10px 0; color: #0f172a; font-weight: bold;">${name}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 10px 0; color: #64748b; font-weight: 600;">Client's Budget:</td>
+              <td style="padding: 10px 0; color: #16a34a; font-weight: bold; font-size: 15px;">${budget ? `GH₵ ${budget}` : 'Starting from GH₵500'}</td>
             </tr>
             <tr style="border-bottom: 1px solid #f1f5f9;">
               <td style="padding: 10px 0; color: #64748b; font-weight: 600;">Phone / WhatsApp:</td>
