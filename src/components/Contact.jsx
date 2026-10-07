@@ -49,6 +49,7 @@ _Sent via Walker Web Services Website_`;
     setErrorMessage('');
 
     let isSuccess = false;
+    let backendError = '';
 
     // 1. Try dedicated Vercel Serverless Function backend
     try {
@@ -71,6 +72,7 @@ _Sent via Walker Web Services Website_`;
       if (response.ok && data.success) {
         isSuccess = true;
       } else {
+        backendError = data?.error || '';
         console.warn('Backend response error:', data?.error);
       }
     } catch (err) {
@@ -110,7 +112,7 @@ _Sent via Walker Web Services Website_`;
       setStatus('success');
     } else {
       setStatus('error');
-      setErrorMessage('Could not deliver email automatically. Please connect with us directly on WhatsApp below!');
+      setErrorMessage(backendError || 'Could not deliver email automatically. Please connect with us directly on WhatsApp below!');
     }
   };
 

@@ -73,7 +73,7 @@ export default async function handler(req, res) {
       </div>
     `;
 
-    const { data, error } = await resend.emails.send({
+    let sendResult = await resend.emails.send({
       from: 'Walker Web Services <onboarding@resend.dev>',
       to: recipientEmail,
       replyTo: email || undefined,
@@ -81,12 +81,28 @@ export default async function handler(req, res) {
       html: emailHtml,
     });
 
-    if (error) {
-      console.error('Resend error:', error);
-      return res.status(500).json({ error: error.message || 'Failed to send email' });
+    // Auto-recovery: If Resend free account restricts sending only to registered email
+    if (sendResult.error && sendResult.error.message?.includes('You can only send testing emails to your own email address')) {
+      const match = sendResult.error.message.match(/\(([^)]+)\)/);
+      const fallbackRecipient = match ? match[1] : null;
+      if (fallbackRecipient) {
+        console.warn(`Resend testing tier redirecting to account email: ${fallbackRecipient}`);
+        sendResult = await resend.emails.send({
+          from: 'Walker Web Services <onboarding@resend.dev>',
+          to: fallbackRecipient,
+          replyTo: email || undefined,
+          subject: emailSubject,
+          html: emailHtml,
+        });
+      }
     }
 
-    return res.status(200).json({ success: true, id: data?.id });
+    if (sendResult.error) {
+      console.error('Resend error:', sendResult.error);
+      return res.status(500).json({ error: sendResult.error.message || 'Failed to send email' });
+    }
+
+    return res.status(200).json({ success: true, id: sendResult.data?.id });
   } catch (err) {
     console.error('Server error in /api/order:', err);
     return res.status(500).json({ error: err.message || 'Internal server error' });
