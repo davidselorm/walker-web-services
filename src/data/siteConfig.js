@@ -7,5 +7,5 @@ export const siteConfig = {
   whatsappNumber: "233537968981",
   instagramHandle: "@walkerwebservices",
   instagramUrl: "https://instagram.com/walkerwebservices",
-  email: "walkerwebservices@gmail.com",
+  email: "walkerwebservices1@gmail.com",
 };

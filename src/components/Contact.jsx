@@ -278,11 +278,11 @@ _Sent via Walker Web Services Website_`;
                   {status === 'loading' ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Sending Order to {siteConfig.email}...</span>
+                      <span>Submitting Order...</span>
                     </>
                   ) : (
                     <>
-                      <span>Submit Order via Email</span>
+                      <span>Submit Order</span>
                       <ArrowRight className="w-5 h-5 shrink-0" />
                     </>
                   )}

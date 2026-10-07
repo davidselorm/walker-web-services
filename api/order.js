@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     }
 
     const resendApiKey = process.env.RESEND_API_KEY;
-    const recipientEmail = process.env.TO_EMAIL || 'walkerwebservices@gmail.com';
+    const recipientEmail = process.env.TO_EMAIL || 'walkerwebservices1@gmail.com';
 
     if (!resendApiKey) {
       console.warn('RESEND_API_KEY is not configured in Vercel environment variables.');
